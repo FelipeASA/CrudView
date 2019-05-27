@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Consumo API</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+    <script>
+        $(document).ready(function () {
+            Listar();
+            // LlenarSD();
+        });
+
+        function LlenarSD() {
+            $.ajax({
+                url: 'http://127.0.0.1:8000/api/pago/',
+                success: function (datos) {
+                    $.each(datos, function (i, item) {
+                        $("#sueldo_"+item.empleado).html(item.sueldobase);
+                        $("#dias_"+item.empleado).html(item.diastrabajados);
+                        var pago = eval(item.sueldobase*(item.diastrabajados/30));
+                        $("#pago_"+item.empleado).html(pago);
+                    });
+                }
+            });
+        }
+
+        function Listar() {
+            var str = '';
+            $.ajax({
+                url: 'http://127.0.0.1:8000/api/',
+                success: function (datos) {
+                    $.each(datos, function (i, item) {
+                        str += '<tr>';
+                        str += '<td>' + item.nombres + '</td>';
+                        str += '<td>' + item.paterno + '</td>';
+                        str += '<td>' + item.materno + '</td>';
+
+                        str += '<td id="sueldo_' + item.pk + '"></td>';
+                        str += '<td id="dias_' + item.pk + '"></td>';
+                        str += '<td id="pago_' + item.pk + '"></td>';
+
+                        str += '</tr>';
+                    });
+                },
+                complete: function () {
+                    $("#empleados").html(str);
+                    LlenarSD();
+                }
+            });
+        }
+    </script>
+
+</head>
+
+<body>
+    <h2>Empleados API</h2>
+    <table border="1">
+
+        <tbody id="empleados">
+
+        </tbody>
+    </table>
+</body>
+
+</html>

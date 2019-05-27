@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Consumo json</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            ListarEmpleados();
+        });
+
+        function ListarEmpleados(){
+            var str='';
+            $.ajax({
+                url: 'http://127.0.0.1:8000/json/',
+                success: function(datos){
+                    $.each(datos, function(i, item){
+                        str+='<tr>';
+                        str+='<td>'+eval(i+1)+'</td>';
+                        str+='<td>'+item.fields.pate0rno+'</td>';
+                        str+='<td>'+item.fields.materno+'</td>';
+                        str+='<td>'+item.fields.nombres+'</td>';
+                        str+='<td>'+item.fields.fono+'</td>';
+                        str+='<td>'+item.fields.email+'</td>';
+                        str+='<td>'+item.fields.ingreso+'</td>';
+                        str+='</tr>';
+                    });
+                }, 
+                error: function(){
+                    alert('Error!');
+                },
+                complete: function(){
+                    $("#empleados").html(str);
+                }
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <table border="1">
+        <thead>
+            <tr>
+                <td>#</td>
+                <td>Ap. Paterno</td>
+                <td>Ap. Materno</td>
+                <td>Nombres</td>
+                <td>Fono</td>
+                <td>Email</td>
+                <td>Ingreso</td>
+            </tr>
+        </thead>
+        <tbody id="empleados">
+
+        </tbody>
+    </table>
+</body>
+
+</html>

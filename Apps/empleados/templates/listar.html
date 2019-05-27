@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Listar</title>
+</head>
+
+<body>
+    <a href="{% url 'home' %}">Home</a>
+    <a href="{% url 'listar' %}">Listar</a>
+    <a href="{% url 'crear' %}">Crear</a>
+
+    <div>
+        <table border="1">
+            <thead>
+                <tr>
+                    <td>Nombres</td>
+                    <td>Ap. Paterno</td>
+                    <td>Ap. Materno</td>
+                    <td>A&ntilde;o ingreso</td>
+                    <td>Editar</td>
+                    <td>Eliminar</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in object_list %}
+                <tr>
+                    <td>{{ item.nombres }}</td>
+                    <td>{{ item.paterno }}</td>
+                    <td>{{ item.materno }}</td>
+                    <td>{{ item.ingreso }}</td>
+                    <td>
+                        <a href="{% url 'editar' pk=item.id %}">Editar</a>
+                    </td>
+                    <td>
+                        <a href="{% url 'eliminar' pk=item.id %}">Eliminar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+</body>
+
+</html>
